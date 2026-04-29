@@ -1,0 +1,25 @@
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    height: 70vh;
+    text-align: center;
+}
+
+button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    
+    background-color: #ff7aa2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #ff5c8a;
+}
