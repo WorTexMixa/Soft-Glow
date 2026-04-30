@@ -1,9 +1,31 @@
-header {
+.header {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     
+    padding: 0 80px;
     height: 80px;
+
     background-color: #1e1e2f;
     color: white;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.nav {
+    display: flex;
+    gap: 30px;
+}
+
+.nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.nav a:hover {
+    color: #ff7aa2;
 }
