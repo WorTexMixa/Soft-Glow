@@ -16,6 +16,27 @@ function Main() {
                     </button>
                 </div>
             </section>
+
+            <section className="services">
+                <h2 className="services-title">Наші послуги</h2>
+
+                <div className="services-list">
+                    <div className="services-card">
+                        <h3>Манікюр</h3>
+                        <p>Догляд за нігтями, покриття та сучасний дизайн</p>
+                    </div>
+
+                    <div className="services-card">
+                        <h3>Макіяж</h3>
+                        <p>Денний, вечірній та святковий макіяж для будь-якої події.</p>
+                    </div>
+
+                    <div className="services-card">
+                        <h3>Брови</h3>
+                        <p>Корекція, фарбування та оформлення брів.</p>
+                    </div>
+                </div>
+            </section>
         </main>
     )
 }
