@@ -1,4 +1,5 @@
 import './Main.css'
+import ServiceCard from './ServiceCard'
 
 const services = [
     {
@@ -44,10 +45,11 @@ function Main() {
                 <h2 className="services-title">Наші послуги</h2>
                     <div className="services-list">
                         {services.map((service) => (
-                        <div className="services-card" key={service.id}>
-                            <h3>{service.title}</h3>
-                            <p>{service.description}</p>
-                        </div>
+                            <ServiceCard
+                                key={service.id}
+                                title={service.title}
+                                description={service.description}
+                            />
                         ))}
                     </div>
             </section>
