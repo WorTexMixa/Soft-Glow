@@ -41,6 +41,34 @@ function Main() {
                 </div>
             </section>
 
+            <section className="about">
+                <div className="about-content">
+                    <div className="about-text">
+                        <p className="section-subtitle">Про салон</p>
+                        <h2>Soft Glow — простір краси та турботи</h2>
+                        <p>
+                            Soft Glow — це сучасний салон краси, де клієнти можуть отримати
+                            якісний догляд, професійні послуги та комфортну атмосферу.
+                        </p>
+                        <p>
+                            Ми прагнемо зробити процес запису зручним, а взаємодію з салоном —
+                            швидкою, зрозумілою та приємною для кожного клієнта.
+                        </p>
+                    </div>
+
+                    <div className="about-card">
+                        <h3>Наші переваги</h3>
+                        <ul>
+                            <li>Професійні майстри</li>
+                            <li>Онлайн-запис на послуги</li>
+                            <li>Зручний особистий кабінет</li>
+                            <li>Адмін-панель для керування салоном</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+
             <section className="services">
                 <h2 className="services-title">Наші послуги</h2>
                     <div className="services-list">
