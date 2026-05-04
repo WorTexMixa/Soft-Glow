@@ -159,3 +159,93 @@ main {
     color: #555;
     font-size: 17px;
 }
+
+@media (max-width: 768px) {
+    main {
+        min-height: auto;
+    }
+
+    .hero {
+        min-height: 60vh;
+        padding: 50px 20px;
+    }
+
+    .hero-title {
+        font-size: 44px;
+    }
+
+    .hero-description {
+        font-size: 18px;
+    }
+    
+    .about {
+        padding: 60px 20px;
+    }
+
+    .about-content {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .section-subtitle {
+        font-size: 16px;        
+    }
+
+    .about-text h2 {
+        font-size: 32px;
+    }
+
+    .about-text p {
+        font-size: 16px;
+    }
+
+    .about-card {
+        width: 100%;
+        padding: 28px;
+    }
+
+    .about-card h3 {
+        font-size: 24px;
+    }
+
+    .about-card li {
+        font-size: 24px;
+    }
+
+    .services {
+        padding: 60px 20px;
+    }
+
+    .services-title {
+        font-size: 32px;
+    }
+
+    .services-card {
+        width: 100%;
+        max-width: 350px;
+    }
+}
+
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 36px;
+  }
+
+  .hero-description {
+    font-size: 16px;
+  }
+
+  .hero-button {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .about-text h2 {
+    font-size: 28px;
+  }
+
+  .services-title {
+    font-size: 28px;
+  }
+}
