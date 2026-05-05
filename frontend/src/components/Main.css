@@ -224,6 +224,22 @@ main {
         width: 100%;
         max-width: 350px;
     }
+
+
+    .master {
+        padding: 60px 20px;
+    }
+
+    .master title {
+        font-size: 32px;
+    }
+
+
+    .master-card {
+        width: 100%;
+        max-width: 350px;
+    }
+
 }
 
 
@@ -249,3 +265,52 @@ main {
     font-size: 28px;
   }
 }
+
+
+.master {
+    padding: 70px 20px;
+    background-color: #ffffff;
+    text-align: center;
+}
+
+.master-title {
+    font-size: 36px;
+
+    margin-bottom: 40px;
+    color: #1e1e2f;
+}
+
+.master-list {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+
+    flex-wrap: wrap;
+}
+
+.master-card {
+    width: 280px;
+    padding: 30px 20px;
+
+    background-color: #fff7f5;
+    border-radius: 20px;
+
+    box-shadow: 0 8px 20px rgba(0,0,0,0.20);
+    transition: transform 0.3s;
+}
+
+.master-card:hover {
+    transform: translateY(-8px);
+}
+
+.master-card h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #ff7aa2;
+}
+
+.master-card p {
+    color:#555;
+    line-height: 1.5;
+}
+

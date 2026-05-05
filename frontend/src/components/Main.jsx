@@ -1,4 +1,5 @@
 import './Main.css'
+import MasterCard from './MasterCard'
 import ServiceCard from './ServiceCard'
 
 const services = [
@@ -21,6 +22,29 @@ const services = [
         id: 4,
         title: 'Зачіски',
         description: 'Стильні зачіски для щоденного образу та особливих подій.'
+    }
+]
+
+const masters = [
+    {
+        id: 1,
+        name: 'Аліна Сидорук',
+        profession: 'Майстер манікюра',
+        experience: 'Досвід: 5 років'
+    },
+
+    {
+        id: 2,
+        name: 'Михайло',
+        profession: 'Візажист',
+        experience: 'Досвід: 21 рік'
+    },
+
+    {
+        id: 3,
+        name: 'Ольга',
+        profession: 'Бровіст',
+        experience: 'Досвід: 5 років'
     }
 ]
 
@@ -80,6 +104,20 @@ function Main() {
                             />
                         ))}
                     </div>
+            </section>
+
+            <section className='master'>
+                <h2 className='master-title'>Наші майстри</h2>
+                <div className='master-list'>
+                    {masters.map((master) => (
+                        <MasterCard
+                            key={master.id}
+                            name={master.name}
+                            profession={master.profession}
+                            experience={master.experience}
+                        />
+                    ))}
+                </div>
             </section>
         </main>
     )
