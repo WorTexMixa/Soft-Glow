@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import './Header.css'
 
 function Header() {
@@ -6,11 +7,11 @@ function Header() {
             <div className="logo">Soft Glow</div>
 
             <nav className="nav">
-            <a href="#">Головна</a>
-            <a href="#">Послуги</a>
-            <a href="#">Майстри</a>
-            <a href="#">Запис</a>
-            <a href="#">Контакти</a>
+                <Link to="/">Головна</Link>
+                <Link to="/services">Послуги</Link>
+                <Link to="/masters">Майстри</Link>
+                <Link to="/booking">Запис</Link>
+                <Link to="/contacts">Контакти</Link>
             </nav>
         </header>
     )
