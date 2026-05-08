@@ -2,31 +2,10 @@ import '../components/Main.css'
 import MasterCard from '../components/MasterCard'
 import ServiceCard from '../components/ServiceCard'
 import { services } from '../data/services'
+import { masters } from '../data/masters'
 
 
 
-const masters = [
-    {
-        id: 1,
-        name: 'Аліна Марченко',
-        profession: 'Майстер манікюра',
-        experience: 'Досвід: 5 років'
-    },
-
-    {
-        id: 2,
-        name: 'Михайло Сидорук',
-        profession: 'Візажист',
-        experience: 'Досвід: 21 рік'
-    },
-
-    {
-        id: 3,
-        name: 'Ольга Полякова',
-        profession: 'Бровіст',
-        experience: 'Досвід: 5 років'
-    }
-]
 
 function HomePage() {
     return (
@@ -89,7 +68,7 @@ function HomePage() {
             <section className='master'>
                 <h2 className='master-title'>Наші майстри</h2>
                 <div className='master-list'>
-                    {masters.map((master) => (
+                    {masters.slice(0,4).map((master) => (
                         <MasterCard
                             key={master.id}
                             name={master.name}

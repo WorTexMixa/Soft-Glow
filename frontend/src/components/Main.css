@@ -92,6 +92,7 @@ main {
     line-height: 1.5;
 }
 
+
 .services-page {
   padding: 80px 20px;
   background-color: #ffffff;
@@ -236,6 +237,13 @@ main {
 
 
 
+.masters-page {
+  padding: 80px 20px;
+  background-color: #ffffff;
+  text-align: center;
+  min-height: 70vh;
+}
+
 
 
 @media (max-width: 768px) {
@@ -331,6 +339,10 @@ main {
     font-size: 16px;
   }
     
+
+    .masters-page {
+    padding: 60px 20px;
+    }
 }
 
 
