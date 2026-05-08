@@ -1,29 +1,9 @@
 import '../components/Main.css'
 import MasterCard from '../components/MasterCard'
 import ServiceCard from '../components/ServiceCard'
+import { services } from '../data/services'
 
-const services = [
-    {
-        id: 1,
-        title: 'Манікюр',
-        description: 'Догляд за нігтями, покриття та сучасний дизайн.'
-    },
-    {
-        id: 2,
-        title: 'Макіяж',
-        description: 'Денний, вечірній та святковий макіяж для будь-якої події.'
-    },
-    {
-        id: 3,
-        title: 'Брови',
-        description: 'Корекція, фарбування та оформлення брів.'
-    },
-    {
-        id: 4,
-        title: 'Зачіски',
-        description: 'Стильні зачіски для щоденного образу та особливих подій.'
-    }
-]
+
 
 const masters = [
     {
@@ -96,7 +76,7 @@ function HomePage() {
             <section className="services">
                 <h2 className="services-title">Наші послуги</h2>
                     <div className="services-list">
-                        {services.map((service) => (
+                        {services.slice(0,4).map((service) => (
                             <ServiceCard
                                 key={service.id}
                                 title={service.title}
