@@ -31,6 +31,13 @@
 }
 
 
+.nav a.active {
+  color: #ff7aa2;
+  border-bottom: 2px solid #ff7aa2;
+  padding-bottom: 4px;
+}
+
+
 @media (max-width: 768px) {
     .header{
         flex-direction: column;

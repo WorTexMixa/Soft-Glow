@@ -1,4 +1,4 @@
-import { Link } from 'react-router'
+import { NavLink } from 'react-router'
 import './Header.css'
 
 function Header() {
@@ -7,11 +7,11 @@ function Header() {
             <div className="logo">Soft Glow</div>
 
             <nav className="nav">
-                <Link to="/">Головна</Link>
-                <Link to="/services">Послуги</Link>
-                <Link to="/masters">Майстри</Link>
-                <Link to="/booking">Запис</Link>
-                <Link to="/contacts">Контакти</Link>
+                <NavLink to="/" end>Головна</NavLink>
+                <NavLink to="/services">Послуги</NavLink>
+                <NavLink to="/masters">Майстри</NavLink>
+                <NavLink to="/booking">Запис</NavLink>
+                <NavLink to="/contacts">Контакти</NavLink>
             </nav>
         </header>
     )
