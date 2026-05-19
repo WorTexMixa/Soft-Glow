@@ -3,6 +3,7 @@ import MasterCard from '../components/MasterCard'
 import ServiceCard from '../components/ServiceCard'
 import { services } from '../data/services'
 import { masters } from '../data/masters'
+import { Link } from 'react-router'
 
 
 
@@ -18,9 +19,9 @@ function HomePage() {
                         Місце, де краса, догляд і комфорт 
                         поєднуються в одному просторі.
                     </p>
-                    <button className="hero-button">
+                    <Link className="hero-button" to="/booking">
                         Записатись онлайн
-                    </button>
+                    </Link>
                 </div>
             </section>
 
