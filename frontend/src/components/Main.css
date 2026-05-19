@@ -1,97 +1,96 @@
 main {
-    min-height: calc(100vh - 140px);
+  min-height: calc(100vh - 140px);
 }
 .hero {
-    min-height: 70vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px 20px;
-    background-color: #fff7f5;
+  min-height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  background-color: #fff7f5;
 }
 .hero-content {
-    max-width: 700px;
-    text-align: center;
+  max-width: 700px;
+  text-align: center;
 }
 .hero-subtitle {
-    margin-bottom: 10px;
-    font-size: 18px;
-    color: #ff7aa2;
-    font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #ff7aa2;
+  font-weight: 600;
 }
 .hero-title {
-    margin: 0;
-    font-size: 64px;
-    color: #1e1e2f;
+  margin: 0;
+  font-size: 64px;
+  color: #1e1e2f;
 }
 .hero-description {
-    margin: 20px 0 30px;
-    font-size: 20px;
-    line-height: 1.5;
-    color: #555;
+  margin: 20px 0 30px;
+  font-size: 20px;
+  line-height: 1.5;
+  color: #555;
 }
 .hero-button {
-    padding: 14px 28px;
-    background-color: #ff7aa2;
-    color: white;
-    border: none;
-    border-radius: 30px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
+  padding: 14px 28px;
+  background-color: #ff7aa2;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
 }
 .hero-button:hover {
-    background-color: #ff5c8a;
+  background-color: #ff5c8a;
 }
 
 .services {
-    padding: 70px 20px;
-    background-color: #ffffff;
-    text-align: center;
+  padding: 70px 20px;
+  background-color: #ffffff;
+  text-align: center;
 }
 
 .services-title {
-    margin-bottom: 40px;
+  margin-bottom: 40px;
 
-    font-size: 36px;
-    color: #1e1e2f;
+  font-size: 36px;
+  color: #1e1e2f;
 }
 
 .services-list {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 25px;
 
-    flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 
 .services-card {
-    width: 280px;
-    padding: 30px 20px;
+  width: 280px;
+  padding: 30px 20px;
 
-    background-color: #fff7f5;
-    border-radius: 20px;
+  background-color: #fff7f5;
+  border-radius: 20px;
 
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.30);
-    transition: transform 0.3s;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s;
 }
 
 .services-card:hover {
-    transform: translateY(-8px);
+  transform: translateY(-8px);
 }
 
 .services-card h3 {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 
-    color: #ff7aa2;
-    font-size: 24px;
+  color: #ff7aa2;
+  font-size: 24px;
 }
 
 .services-card p {
-    color: #555;
-    line-height: 1.5;
+  color: #555;
+  line-height: 1.5;
 }
-
 
 .services-page {
   padding: 80px 20px;
@@ -116,126 +115,119 @@ main {
   line-height: 1.6;
 }
 
-
-
-
-
 .about {
-    padding: 80px 20px;
-    background-color: #ffffff;
+  padding: 80px 20px;
+  background-color: #ffffff;
 }
 
 .about-content {
-    max-width: 1100px;
-    margin: 0 auto;
+  max-width: 1100px;
+  margin: 0 auto;
 
-    display: flex;
-    align-items: center;
-    gap: 50px;
+  display: flex;
+  align-items: center;
+  gap: 50px;
 }
 
 .about-text {
-    flex:1;
+  flex: 1;
 }
 
 .section-subtitle {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 
-    color: #ff7aa2;
-    font-size: 18px;
-    font-weight: 600;
+  color: #ff7aa2;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .about-text h2 {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 
-    color: #1e1e2f;
-    font-size: 38px;
+  color: #1e1e2f;
+  font-size: 38px;
 }
 
 .about-text p {
-    color: #555;
-    font-size: 18px;
-    line-height: 1.6;
+  color: #555;
+  font-size: 18px;
+  line-height: 1.6;
 }
 
 .about-card {
-    flex: 1;
+  flex: 1;
 
-    padding: 35px;
-    background-color: #fff7f5;
-    border-radius: 24px;
+  padding: 35px;
+  background-color: #fff7f5;
+  border-radius: 24px;
 
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
 .about-card h3 {
-    margin-bottom:20px;
+  margin-bottom: 20px;
 
-    color: #1e1e2f;
-    font-size:26px;
+  color: #1e1e2f;
+  font-size: 26px;
 }
 
 .about-card ul {
-    padding-left: 20px;
+  padding-left: 20px;
 }
 
 .about-card li {
-    margin-bottom:12px;
+  margin-bottom: 12px;
 
-    color: #555;
-    font-size: 17px;
+  color: #555;
+  font-size: 17px;
 }
 
-
 .master {
-    padding: 70px 20px;
-    background-color: #ffffff;
-    text-align: center;
+  padding: 70px 20px;
+  background-color: #ffffff;
+  text-align: center;
 }
 
 .master-title {
-    font-size: 36px;
+  font-size: 36px;
 
-    margin-bottom: 40px;
-    color: #1e1e2f;
+  margin-bottom: 40px;
+  color: #1e1e2f;
 }
 
 .master-list {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 25px;
 
-    flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 
 .master-card {
-    width: 280px;
-    padding: 30px 20px;
+  width: 280px;
+  padding: 30px 20px;
 
-    background-color: #fff7f5;
-    border-radius: 20px;
+  background-color: #fff7f5;
+  border-radius: 20px;
 
-    box-shadow: 0 8px 20px rgba(0,0,0,0.20);
-    transition: transform 0.3s;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s;
 }
 
 .master-card:hover {
-    transform: translateY(-8px);
+  transform: translateY(-8px);
 }
 
 .master-card h3 {
-    font-size: 24px;
-    margin-bottom: 15px;
-    color: #ff7aa2;
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #ff7aa2;
 }
 
 .master-card p {
-    color:#555;
-    line-height: 1.5;
+  color: #555;
+  line-height: 1.5;
 }
-
-
 
 .masters-page {
   padding: 80px 20px;
@@ -243,8 +235,6 @@ main {
   text-align: center;
   min-height: 70vh;
 }
-
-
 
 .booking-page {
   padding: 80px 20px;
@@ -324,89 +314,163 @@ main {
   background-color: #ff5c8a;
 }
 
+.contacts-page {
+  padding: 80px 20px;
+  background-color: #ffffff;
+  min-height: 70vh;
+  text-align: center;
+}
+
+.contacts-content {
+  max-width: 1100px;
+  margin: 0 auto;
+
+  display: flex;
+  gap: 40px;
+  align-items: stretch;
+
+  text-align: left;
+}
+
+.contacts-info,
+.contacts-card {
+  flex: 1;
+
+  padding: 35px;
+
+  background-color: #fff7f5;
+  border-radius: 24px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.contacts-info h2,
+.contacts-card h2 {
+  margin-top: 0;
+  margin-bottom: 25px;
+
+  color: #1e1e2f;
+  font-size: 28px;
+}
+
+.contact-item {
+  margin-bottom: 22px;
+}
+
+.contact-item h3 {
+  margin-bottom: 8px;
+
+  color: #ff7aa2;
+  font-size: 20px;
+}
+
+.contact-item p,
+.contacts-card p {
+  margin: 0 0 10px;
+
+  color: #555;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.contacts-button {
+  display: inline-block;
+
+  margin-top: 20px;
+  padding: 14px 28px;
+
+  background-color: #ff7aa2;
+  color: white;
+
+  border-radius: 30px;
+
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.contacts-button:hover {
+  background-color: #ff5c8a;
+}
 
 @media (max-width: 768px) {
-    main {
-        min-height: auto;
-    }
+  main {
+    min-height: auto;
+  }
 
-    .hero {
-        min-height: 60vh;
-        padding: 50px 20px;
-    }
+  .hero {
+    min-height: 60vh;
+    padding: 50px 20px;
+  }
 
-    .hero-title {
-        font-size: 44px;
-    }
+  .hero-title {
+    font-size: 44px;
+  }
 
-    .hero-description {
-        font-size: 18px;
-    }
-    
-    .about {
-        padding: 60px 20px;
-    }
+  .hero-description {
+    font-size: 18px;
+  }
 
-    .about-content {
-        flex-direction: column;
-        gap: 30px;
-    }
+  .about {
+    padding: 60px 20px;
+  }
 
-    .section-subtitle {
-        font-size: 16px;        
-    }
+  .about-content {
+    flex-direction: column;
+    gap: 30px;
+  }
 
-    .about-text h2 {
-        font-size: 32px;
-    }
+  .section-subtitle {
+    font-size: 16px;
+  }
 
-    .about-text p {
-        font-size: 16px;
-    }
+  .about-text h2 {
+    font-size: 32px;
+  }
 
-    .about-card {
-        width: 100%;
-        padding: 28px;
-    }
+  .about-text p {
+    font-size: 16px;
+  }
 
-    .about-card h3 {
-        font-size: 24px;
-    }
+  .about-card {
+    width: 100%;
+    padding: 28px;
+  }
 
-    .about-card li {
-        font-size: 24px;
-    }
+  .about-card h3 {
+    font-size: 24px;
+  }
 
-    .services {
-        padding: 60px 20px;
-    }
+  .about-card li {
+    font-size: 24px;
+  }
 
-    .services-title {
-        font-size: 32px;
-    }
+  .services {
+    padding: 60px 20px;
+  }
 
-    .services-card {
-        width: 100%;
-        max-width: 350px;
-    }
+  .services-title {
+    font-size: 32px;
+  }
 
+  .services-card {
+    width: 100%;
+    max-width: 350px;
+  }
 
-    .master {
-        padding: 60px 20px;
-    }
+  .master {
+    padding: 60px 20px;
+  }
 
-    .master title {
-        font-size: 32px;
-    }
+  .master title {
+    font-size: 32px;
+  }
 
+  .master-card {
+    width: 100%;
+    max-width: 350px;
+  }
 
-    .master-card {
-        width: 100%;
-        max-width: 350px;
-    }
-
-
- .services-page {
+  .services-page {
     padding: 60px 20px;
   }
 
@@ -417,28 +481,38 @@ main {
   .page-description {
     font-size: 16px;
   }
-    
 
-    .masters-page {
+  .masters-page {
     padding: 60px 20px;
-    }
+  }
 
+  .booking-page {
+    padding: 60px 20px;
+  }
 
+  .booking-form {
+    padding: 28px;
+  }
 
-    .booking-page {
-     padding: 60px 20px;
-    }
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
 
-    .booking-form {
-      padding: 28px;
-    }
+  .contacts-page {
+    padding: 60px 20px;
+  }
 
-    .form-row {
-     flex-direction: column;
-     gap: 0;
-    }
+  .contacts-content {
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  .contacts-info,
+  .contacts-card {
+    padding: 28px;
+  }
 }
-
 
 @media (max-width: 480px) {
   .hero-title {
@@ -462,13 +536,23 @@ main {
     font-size: 28px;
   }
 
-   .page-title {
+  .page-title {
     font-size: 28px;
   }
 
   .booking-form {
-  padding: 24px 18px;
-  border-radius: 18px;
+    padding: 24px 18px;
+    border-radius: 18px;
+  }
+
+  .contacts-info,
+  .contacts-card {
+    padding: 24px 18px;
+    border-radius: 18px;
+  }
+
+  .contacts-button {
+    width: 100%;
+    text-align: center;
   }
 }
-
