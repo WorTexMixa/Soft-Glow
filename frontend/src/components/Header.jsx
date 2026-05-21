@@ -12,6 +12,9 @@ function Header() {
                 <NavLink to="/masters">Майстри</NavLink>
                 <NavLink to="/booking">Запис</NavLink>
                 <NavLink to="/contacts">Контакти</NavLink>
+                <NavLink to="/login">Вхід</NavLink>
+                <NavLink to="/register">Реєстрація</NavLink>
+
             </nav>
         </header>
     )
