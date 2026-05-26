@@ -1,44 +1,65 @@
-import { useState } from 'react'
-import { services } from '../data/services'
-import { masters } from '../data/masters'
-import '../components/Main.css'
+import { useState } from "react";
+import { services } from "../data/services";
+import { masters } from "../data/masters";
+import "../components/Main.css";
 
 function BookingPage() {
   const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    service: '',
-    master: '',
-    date: '',
-    time: '',
-    comment: '',
-  })
+    name: "",
+    phone: "",
+    service: "",
+    master: "",
+    date: "",
+    time: "",
+    comment: "",
+  });
 
   function handleChange(event) {
-    const { name, value } = event.target
+    const { name, value } = event.target;
 
     setFormData({
       ...formData,
       [name]: value,
-    })
+    });
   }
 
   function handleSubmit(event) {
-    event.preventDefault()
+    event.preventDefault();
 
-    console.log('Дані запису:', formData)
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    const appointments = JSON.parse(localStorage.getItem("appointments")) || [];
 
-    alert('Запис успішно створено! Ми зв’яжемося з вами для підтвердження.')
+    const newAppointment = {
+      id: Date.now(),
+      name: formData.name,
+      phone: formData.phone,
+      service: formData.service,
+      master: formData.master,
+      date: formData.date,
+      time: formData.time,
+      comment: formData.comment,
+      status: "Очікує підтвердження",
+
+      userId: currentUser ? currentUser.id : null,
+      userEmail: currentUser ? currentUser.email : null,
+    };
+
+    localStorage.setItem(
+      "appointments",
+      JSON.stringify([...appointments, newAppointment]),
+    );
+
+    alert("Запис успішно створено! Ми зв’яжемося з вами для підтвердження.");
 
     setFormData({
-      name: '',
-      phone: '',
-      service: '',
-      master: '',
-      date: '',
-      time: '',
-      comment: '',
-    })
+      name: "",
+      phone: "",
+      service: "",
+      master: "",
+      date: "",
+      time: "",
+      comment: "",
+    });
   }
 
   return (
@@ -156,7 +177,7 @@ function BookingPage() {
         </form>
       </section>
     </main>
-  )
+  );
 }
 
-export default BookingPage
+export default BookingPage;
