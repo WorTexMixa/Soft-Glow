@@ -68,6 +68,12 @@ function AdminPage() {
           статус.
         </p>
 
+        <div className="admin-actions">
+          <Link className="contacts-button" to="/admin/services">
+            Керування послугами
+          </Link>
+        </div>
+
         {appointments.length === 0 ? (
           <div className="empty-appointments">
             <h2>Записів поки немає</h2>

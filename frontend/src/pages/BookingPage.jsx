@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { services } from "../data/services";
+import { getServices } from "../data/services";
 import { masters } from "../data/masters";
 import "../components/Main.css";
 
@@ -61,6 +61,8 @@ function BookingPage() {
       comment: "",
     });
   }
+
+  const services = getServices();
 
   return (
     <main>

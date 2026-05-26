@@ -12,6 +12,7 @@ import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import MyAppointmentsPage from "./pages/MyAppointmentsPage";
 import AdminPage from "./pages/AdminPage";
+import AdminServicesPage from './pages/AdminServicesPage'
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/my-appointments" element={<MyAppointmentsPage />} />
         <Route path="/admin" element={<AdminPage />} />
+        <Route path="/admin/services" element={<AdminServicesPage />} />
       </Routes>
 
       <Footer />
