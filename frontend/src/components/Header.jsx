@@ -35,13 +35,17 @@ function Header() {
         <NavLink to="/contacts">Контакти</NavLink>
 
         {currentUser ? (
-          <div className="user-menu">
-            <span className="user-name">{currentUser.name}</span>
+          <>
+            <NavLink to="/my-appointments">Мої записи</NavLink>
 
-            <button className="logout-button" onClick={handleLogout}>
+            <div className="user-menu">
+              <span className="user-name">{currentUser.name}</span>
+
+              <button className="logout-button" onClick={handleLogout}>
                 Вийти
-            </button>
-          </div>
+              </button>
+            </div>
+          </>
         ) : (
           <>
             <NavLink to="/login">Вхід</NavLink>
