@@ -11,6 +11,7 @@ import ContactsPage from "./pages/ContactsPage";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import MyAppointmentsPage from "./pages/MyAppointmentsPage";
+import AdminPage from "./pages/AdminPage";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/my-appointments" element={<MyAppointmentsPage />} />
+        <Route path="/admin" element={<AdminPage />} />
       </Routes>
 
       <Footer />

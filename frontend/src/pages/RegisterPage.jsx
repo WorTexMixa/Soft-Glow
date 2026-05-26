@@ -32,12 +32,14 @@ function RegisterPage() {
       return;
     }
 
+    const adminEmails = ["softglow.admin@gmail.com"];
+
     const newUser = {
       id: Date.now(),
       name: formData.name,
       email: formData.email,
       password: formData.password,
-      role: "user",
+      role: adminEmails.includes(formData.email) ? "admin" : "user",
     };
 
     localStorage.setItem("users", JSON.stringify([...users, newUser]));

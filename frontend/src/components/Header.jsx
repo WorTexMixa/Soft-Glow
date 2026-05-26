@@ -38,6 +38,10 @@ function Header() {
           <>
             <NavLink to="/my-appointments">Мої записи</NavLink>
 
+            {currentUser.role === "admin" && (
+              <NavLink to="/admin">Адмін-панель</NavLink>
+            )}
+
             <div className="user-menu">
               <span className="user-name">{currentUser.name}</span>
 

@@ -552,6 +552,73 @@ main {
   background-color: #2d2d45;
 }
 
+.admin-page {
+  padding: 80px 20px;
+  background-color: #ffffff;
+  min-height: 70vh;
+  text-align: center;
+}
+
+.admin-table-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  background-color: #fff7f5;
+  border-radius: 20px;
+  overflow: hidden;
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 16px;
+  border-bottom: 1px solid #eadada;
+
+  color: #555;
+  text-align: left;
+  font-size: 15px;
+}
+
+.admin-table th {
+  background-color: #1e1e2f;
+  color: white;
+  font-weight: 600;
+}
+
+.admin-table select {
+  padding: 8px 10px;
+
+  border: 1px solid #ddd;
+  border-radius: 10px;
+
+  font-family: inherit;
+}
+
+.delete-button {
+  padding: 8px 14px;
+
+  background-color: #d9534f;
+  color: white;
+
+  border: none;
+  border-radius: 16px;
+
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: #c9302c;
+}
+
 @media (max-width: 768px) {
   main {
     min-height: auto;
@@ -692,6 +759,16 @@ main {
 
   .appointment-card {
     padding: 24px;
+  }
+
+  .admin-page {
+    padding: 60px 20px;
+  }
+
+  .admin-table th,
+  .admin-table td {
+    padding: 12px;
+    font-size: 14px;
   }
 }
 
