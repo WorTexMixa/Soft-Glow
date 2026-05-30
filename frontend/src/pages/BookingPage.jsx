@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { getServices } from "../data/services";
-import { masters } from "../data/masters";
+import { getMasters } from "../data/masters";
 import "../components/Main.css";
 
 function BookingPage() {
@@ -63,6 +63,7 @@ function BookingPage() {
   }
 
   const services = getServices();
+  const masters = getMasters();
 
   return (
     <main>

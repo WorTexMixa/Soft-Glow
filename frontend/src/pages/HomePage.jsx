@@ -2,12 +2,12 @@ import "../components/Main.css";
 import MasterCard from "../components/MasterCard";
 import ServiceCard from "../components/ServiceCard";
 import { getServices } from "../data/services";
-import { masters } from "../data/masters";
+import { getMasters } from "../data/masters";
 import { Link } from "react-router";
 
 function HomePage() {
-    const services = getServices()
-
+  const services = getServices();
+  const masters = getMasters();
 
   return (
     <main>

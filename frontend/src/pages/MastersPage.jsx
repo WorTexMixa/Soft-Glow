@@ -1,17 +1,18 @@
-import '../components/Main.css'
-import { masters } from '../data/masters'
-import MasterCard from '../components/MasterCard'
+import "../components/Main.css";
+import { getMasters } from "../data/masters";
+import MasterCard from "../components/MasterCard";
 
+const masters = getMasters();
 
-function MastersPage () {
-      return (
+function MastersPage() {
+  return (
     <main>
       <section className="masters-page">
         <p className="section-subtitle">Команда</p>
         <h1 className="page-title">Майстри салону Soft Glow</h1>
         <p className="page-description">
-          Наші майстри допоможуть підібрати послугу, створити образ і забезпечити
-          якісний догляд у комфортній атмосфері.
+          Наші майстри допоможуть підібрати послугу, створити образ і
+          забезпечити якісний догляд у комфортній атмосфері.
         </p>
 
         <div className="master-list">
@@ -26,8 +27,7 @@ function MastersPage () {
         </div>
       </section>
     </main>
-  )
-
+  );
 }
 
-export default MastersPage
+export default MastersPage;

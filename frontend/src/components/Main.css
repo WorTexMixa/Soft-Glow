@@ -685,6 +685,35 @@ main {
   margin-bottom: 30px;
 }
 
+.admin-masters-page {
+  padding: 80px 20px;
+  background-color: #ffffff;
+  min-height: 70vh;
+  text-align: center;
+}
+
+.admin-master-form {
+  max-width: 700px;
+  margin: 0 auto 40px;
+
+  padding: 35px;
+
+  background-color: #fff7f5;
+  border-radius: 24px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+  text-align: left;
+}
+
+.admin-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+
+  margin-bottom: 30px;
+}
+
 @media (max-width: 768px) {
   main {
     min-height: auto;
@@ -847,6 +876,14 @@ main {
 
   .service-form-actions {
     flex-direction: column;
+  }
+
+  .admin-masters-page {
+    padding: 60px 20px;
+  }
+
+  .admin-master-form {
+    padding: 28px;
   }
 }
 

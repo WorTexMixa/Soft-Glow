@@ -1,4 +1,4 @@
-export const masters = [
+export const defaultMasters = [
   {
     id: 1,
     name: 'Аліна Сидорук',
@@ -36,3 +36,17 @@ export const masters = [
     experience: 'Досвід: 5 років',
   },
 ]
+
+export function getMasters() {
+  const savedMasters = JSON.parse(localStorage.getItem('masters'))
+
+  if (savedMasters && savedMasters.length > 0) {
+    return savedMasters
+  }
+
+  return defaultMasters
+}
+
+export function saveMasters(masters) {
+  localStorage.setItem('masters', JSON.stringify(masters))
+}

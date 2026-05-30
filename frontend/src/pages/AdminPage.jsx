@@ -72,6 +72,13 @@ function AdminPage() {
           <Link className="contacts-button" to="/admin/services">
             Керування послугами
           </Link>
+
+          <Link
+            className="contacts-button secondary-button"
+            to="/admin/masters"
+          >
+            Керування майстрами
+          </Link>
         </div>
 
         {appointments.length === 0 ? (
