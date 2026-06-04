@@ -64,6 +64,64 @@ const register = async (req, res) => {
   }
 };
 
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        message: "Email and password are required",
+      });
+    }
+
+    const normalizedEmail = email.trim().toLowerCase();
+
+    const [users] = await db.query(
+      `
+      SELECT id, name, email, password, role, created_at
+      FROM users
+      WHERE email = ?
+      `,
+      [normalizedEmail],
+    );
+
+    if (users.length === 0) {
+      return res.status(401).json({
+        message: "Invalid email or password",
+      });
+    }
+
+    const user = users[0];
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({
+        message: "Invalid email or password",
+      });
+    }
+
+    res.json({
+      message: "Login successful",
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        created_at: user.created_at,
+      },
+    });
+  } catch (error) {
+    console.error("Login error:", error);
+
+    res.status(500).json({
+      message: "Failed to login",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   register,
+  login,
 };
