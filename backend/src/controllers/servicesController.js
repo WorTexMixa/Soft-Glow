@@ -99,8 +99,41 @@ const updateService = async (req, res) => {
   }
 };
 
+const deleteService = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const [result] = await db.query(
+      `
+      DELETE FROM services
+      WHERE id = ?
+      `,
+      [id],
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        message: "Service not found",
+      });
+    }
+
+    res.json({
+      message: "Service deleted successfully",
+      deletedServiceId: Number(id),
+    });
+  } catch (error) {
+    console.error("Delete service error:", error);
+
+    res.status(500).json({
+      message: "Failed to delete service",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   getServices,
   createService,
   updateService,
+  deleteService,
 };
