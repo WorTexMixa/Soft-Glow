@@ -4,6 +4,7 @@ require("dotenv").config();
 
 const db = require("./config/db");
 const servicesRoutes = require("./routes/servicesRoutes");
+const mastersRoutes = require("./routes/mastersRoutes");
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(
 app.use(express.json());
 
 app.use("/api/services", servicesRoutes);
+app.use("/api/masters", mastersRoutes);
 
 app.get("/api/health", (req, res) => {
   res.json({
