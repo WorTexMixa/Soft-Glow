@@ -113,8 +113,41 @@ const updateMaster = async (req, res) => {
   }
 };
 
+const deleteMaster = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const [result] = await db.query(
+      `
+      DELETE FROM masters
+      WHERE id = ?
+      `,
+      [id],
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        message: "Master not found",
+      });
+    }
+
+    res.json({
+      message: "Master deleted successfully",
+      deletedMasterId: Number(id),
+    });
+  } catch (error) {
+    console.error("Delete master error:", error);
+
+    res.status(500).json({
+      message: "Failed to delete master",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   getMasters,
   createMaster,
   updateMaster,
+  deleteMaster,
 };
