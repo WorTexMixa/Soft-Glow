@@ -6,6 +6,7 @@ const db = require("./config/db");
 const servicesRoutes = require("./routes/servicesRoutes");
 const mastersRoutes = require("./routes/mastersRoutes");
 const authRoutes = require("./routes/authRoutes");
+const appointmentsRoutes = require("./routes/appointmentsRoutes");
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use("/api/services", servicesRoutes);
 app.use("/api/masters", mastersRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/appointments", appointmentsRoutes);
 
 app.get("/api/health", (req, res) => {
   res.json({
