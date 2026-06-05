@@ -1,5 +1,20 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const db = require("../config/db");
+
+const generateToken = (user) => {
+  return jwt.sign(
+    {
+      id: user.id,
+      email: user.email,
+      role: user.role,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: process.env.JWT_EXPIRES_IN || "7d",
+    },
+  );
+};
 
 const register = async (req, res) => {
   try {
@@ -45,14 +60,19 @@ const register = async (req, res) => {
       [name, normalizedEmail, hashedPassword, "user"],
     );
 
+    const user = {
+      id: result.insertId,
+      name,
+      email: normalizedEmail,
+      role: "user",
+    };
+
+    const token = generateToken(user);
+
     res.status(201).json({
       message: "User registered successfully",
-      user: {
-        id: result.insertId,
-        name,
-        email: normalizedEmail,
-        role: "user",
-      },
+      user,
+      token,
     });
   } catch (error) {
     console.error("Register error:", error);
@@ -91,9 +111,9 @@ const login = async (req, res) => {
       });
     }
 
-    const user = users[0];
+    const foundUser = users[0];
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await bcrypt.compare(password, foundUser.password);
 
     if (!isPasswordValid) {
       return res.status(401).json({
@@ -101,15 +121,20 @@ const login = async (req, res) => {
       });
     }
 
+    const user = {
+      id: foundUser.id,
+      name: foundUser.name,
+      email: foundUser.email,
+      role: foundUser.role,
+      created_at: foundUser.created_at,
+    };
+
+    const token = generateToken(user);
+
     res.json({
       message: "Login successful",
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        created_at: user.created_at,
-      },
+      user,
+      token,
     });
   } catch (error) {
     console.error("Login error:", error);
