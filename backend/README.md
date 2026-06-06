@@ -277,22 +277,90 @@ GET http://localhost:5000/api/db-test
 
 ---
 
+
 ## База даних
 
-SQL-структура бази даних знаходиться у файлі:
+SQL-файли для бази даних знаходяться у папці:
 
 ```text
-database/init.sql
-```
+database/
+
+Основні файли:
+
+init.sql — створення бази даних і таблиць
+seed.sql — очищення тестових даних і додавання нових тестових послуг та майстрів
 
 Основні таблиці:
 
-```text
 users
 services
 masters
 appointments
-```
+Створення бази даних
+
+Для створення бази даних потрібно виконати файл:
+
+database/init.sql
+
+У MySQL Workbench:
+
+Відкрити MySQL Workbench.
+Підключитися до MySQL-сервера.
+Відкрити файл database/init.sql.
+Натиснути кнопку виконання SQL-запиту.
+
+Після виконання мають бути створені:
+
+soft_glow_db
+users
+services
+masters
+appointments
+Наповнення бази тестовими даними
+
+Для додавання тестових послуг і майстрів потрібно виконати файл:
+
+database/seed.sql
+
+Цей файл:
+
+1. очищає таблицю appointments;
+2. очищає таблицю services;
+3. очищає таблицю masters;
+4. скидає AUTO_INCREMENT для цих таблиць;
+5. додає нові тестові послуги;
+6. додає нових тестових майстрів.
+
+Важливо:
+
+Таблиця users не очищається.
+
+Це зроблено для того, щоб не видалити тестового admin-користувача.
+
+Перевірка даних у MySQL
+
+Після виконання seed.sql можна перевірити таблиці:
+
+USE soft_glow_db;
+
+SELECT * FROM services;
+SELECT * FROM masters;
+SELECT * FROM appointments;
+
+Очікувано:
+
+services     — містить тестові послуги
+masters      — містить тестових майстрів
+appointments — порожня або містить тільки нові тестові записи
+Перевірка через backend API
+
+Після запуску backend можна перевірити:
+
+GET http://localhost:5000/api/services
+GET http://localhost:5000/api/masters
+
+Ці endpoints мають повернути тестові дані з MySQL.
+
 
 ---
 
