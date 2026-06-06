@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import "../components/Main.css";
+import { API_URL } from "../config/api";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -19,25 +20,37 @@ function LoginPage() {
     });
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
-    const users = JSON.parse(localStorage.getItem("users")) || [];
+    try {
+      const response = await fetch(`${API_URL}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
 
-    const foundUser = users.find(
-      (user) =>
-        user.email === formData.email && user.password === formData.password,
-    );
+      const data = await response.json();
 
-    if (!foundUser) {
-      alert("Невірний email або пароль");
-      return;
+      if (!response.ok) {
+        alert(data.message || "Невірний email або пароль");
+        return;
+      }
+
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("currentUser", JSON.stringify(data.user));
+
+      alert(`Вітаємо, ${data.user.name}!`);
+      navigate("/");
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Не вдалося підключитися до сервера");
     }
-
-    localStorage.setItem("currentUser", JSON.stringify(foundUser));
-
-    alert(`Вітаємо, ${foundUser.name}!`);
-    navigate("/");
   }
 
   return (
