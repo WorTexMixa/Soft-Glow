@@ -714,6 +714,15 @@ main {
   margin-bottom: 30px;
 }
 
+.error-message {
+  max-width: 600px;
+  margin: 0 auto 30px;
+
+  color: #d9534f;
+  font-size: 18px;
+  font-weight: 600;
+}
+
 @media (max-width: 768px) {
   main {
     min-height: auto;

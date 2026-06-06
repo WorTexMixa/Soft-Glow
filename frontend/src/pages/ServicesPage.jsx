@@ -1,9 +1,29 @@
+import { useEffect, useState } from "react";
 import ServiceCard from "../components/ServiceCard";
+import { fetchServices } from "../api/servicesApi";
 import "../components/Main.css";
-import { getServices } from "../data/services";
 
 function ServicesPage() {
-   const services = getServices()
+  const [services, setServices] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    async function loadServices() {
+      try {
+        const servicesFromApi = await fetchServices();
+
+        setServices(servicesFromApi);
+      } catch (error) {
+        console.error("Services loading error:", error);
+        setError("Не вдалося завантажити послуги");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    loadServices();
+  }, []);
 
   return (
     <main>
@@ -15,15 +35,27 @@ function ServicesPage() {
           час.
         </p>
 
-        <div className="services-list">
-          {services.map((service) => (
-            <ServiceCard
-              key={service.id}
-              title={service.title}
-              description={service.description}
-            />
-          ))}
-        </div>
+        {isLoading && (
+          <p className="page-description">Завантаження послуг...</p>
+        )}
+
+        {error && <p className="error-message">{error}</p>}
+
+        {!isLoading && !error && services.length === 0 && (
+          <p className="page-description">Послуги поки не додані.</p>
+        )}
+
+        {!isLoading && !error && services.length > 0 && (
+          <div className="services-list">
+            {services.map((service) => (
+              <ServiceCard
+                key={service.id}
+                title={service.title}
+                description={service.description}
+              />
+            ))}
+          </div>
+        )}
       </section>
     </main>
   );
