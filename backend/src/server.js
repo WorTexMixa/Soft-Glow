@@ -3,10 +3,14 @@ const cors = require("cors");
 require("dotenv").config();
 
 const db = require("./config/db");
+
 const servicesRoutes = require("./routes/servicesRoutes");
 const mastersRoutes = require("./routes/mastersRoutes");
 const authRoutes = require("./routes/authRoutes");
 const appointmentsRoutes = require("./routes/appointmentsRoutes");
+
+const { notFoundMiddleware } = require("./middleware/notFoundMiddleware");
+const { errorMiddleware } = require("./middleware/errorMiddleware");
 
 const app = express();
 
@@ -19,11 +23,6 @@ app.use(
 );
 
 app.use(express.json());
-
-app.use("/api/services", servicesRoutes);
-app.use("/api/masters", mastersRoutes);
-app.use("/api/auth", authRoutes);
-app.use("/api/appointments", appointmentsRoutes);
 
 app.get("/api/health", (req, res) => {
   res.json({
@@ -49,6 +48,14 @@ app.get("/api/db-test", async (req, res) => {
     });
   }
 });
+
+app.use("/api/services", servicesRoutes);
+app.use("/api/masters", mastersRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/appointments", appointmentsRoutes);
+
+app.use(notFoundMiddleware);
+app.use(errorMiddleware);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
