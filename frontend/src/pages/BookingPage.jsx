@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { getServices } from "../data/services";
-import { getMasters } from "../data/masters";
+import { useEffect, useState } from "react";
+import { fetchServices } from "../api/servicesApi";
+import { fetchMasters } from "../api/mastersApi";
 import "../components/Main.css";
 
 function BookingPage() {
@@ -13,6 +13,30 @@ function BookingPage() {
     time: "",
     comment: "",
   });
+
+  const [services, setServices] = useState([]);
+  const [masters, setMasters] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    async function loadBookingData() {
+      try {
+        const servicesFromApi = await fetchServices();
+        const mastersFromApi = await fetchMasters();
+
+        setServices(servicesFromApi);
+        setMasters(mastersFromApi);
+      } catch (error) {
+        console.error("Booking data loading error:", error);
+        setError("Не вдалося завантажити послуги або майстрів");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    loadBookingData();
+  }, []);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -62,9 +86,6 @@ function BookingPage() {
     });
   }
 
-  const services = getServices();
-  const masters = getMasters();
-
   return (
     <main>
       <section className="booking-page">
@@ -73,6 +94,8 @@ function BookingPage() {
         <p className="page-description">
           Заповніть форму, оберіть послугу, майстра та зручний час відвідування.
         </p>
+
+        {error && <p className="error-message">{error}</p>}
 
         <form className="booking-form" onSubmit={handleSubmit}>
           <div className="form-group">
@@ -109,8 +132,12 @@ function BookingPage() {
               value={formData.service}
               onChange={handleChange}
               required
+              disabled={isLoading}
             >
-              <option value="">Оберіть послугу</option>
+              <option value="">
+                {isLoading ? "Завантаження послуг..." : "Оберіть послугу"}
+              </option>
+
               {services.map((service) => (
                 <option key={service.id} value={service.title}>
                   {service.title}
@@ -127,8 +154,12 @@ function BookingPage() {
               value={formData.master}
               onChange={handleChange}
               required
+              disabled={isLoading}
             >
-              <option value="">Оберіть майстра</option>
+              <option value="">
+                {isLoading ? "Завантаження майстрів..." : "Оберіть майстра"}
+              </option>
+
               {masters.map((master) => (
                 <option key={master.id} value={master.name}>
                   {master.name} — {master.profession}
