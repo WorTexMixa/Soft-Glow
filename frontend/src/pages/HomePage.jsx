@@ -1,13 +1,31 @@
 import "../components/Main.css";
 import MasterCard from "../components/MasterCard";
 import ServiceCard from "../components/ServiceCard";
-import { getServices } from "../data/services";
+import { useEffect, useState } from "react";
+import { fetchServices } from "../api/servicesApi";
 import { getMasters } from "../data/masters";
 import { Link } from "react-router";
 
 function HomePage() {
-  const services = getServices();
+  const [services, setServices] = useState([]);
+  const [servicesError, setServicesError] = useState("");
+
   const masters = getMasters();
+
+  useEffect(() => {
+    async function loadServices() {
+      try {
+        const servicesFromApi = await fetchServices();
+
+        setServices(servicesFromApi);
+      } catch (error) {
+        console.error("Homepage services loading error:", error);
+        setServicesError("Не вдалося завантажити послуги");
+      }
+    }
+
+    loadServices();
+  }, []);
 
   return (
     <main>
@@ -53,14 +71,21 @@ function HomePage() {
 
       <section className="services">
         <h2 className="services-title">Наші послуги</h2>
+
         <div className="services-list">
-          {services.slice(0, 4).map((service) => (
-            <ServiceCard
-              key={service.id}
-              title={service.title}
-              description={service.description}
-            />
-          ))}
+          {servicesError ? (
+            <p className="error-message">{servicesError}</p>
+          ) : (
+            services
+              .slice(0, 4)
+              .map((service) => (
+                <ServiceCard
+                  key={service.id}
+                  title={service.title}
+                  description={service.description}
+                />
+              ))
+          )}
         </div>
       </section>
 
