@@ -4,6 +4,7 @@ const {
   getMyAppointments,
   createAppointment,
   updateAppointmentStatus,
+  deleteAppointment,
 } = require("../controllers/appointmentsController");
 const {
   optionalAuthMiddleware,
@@ -22,5 +23,6 @@ router.put(
   adminMiddleware,
   updateAppointmentStatus,
 );
+router.delete("/:id", authMiddleware, adminMiddleware, deleteAppointment);
 
 module.exports = router;
