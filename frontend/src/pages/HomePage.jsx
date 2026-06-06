@@ -3,28 +3,36 @@ import MasterCard from "../components/MasterCard";
 import ServiceCard from "../components/ServiceCard";
 import { useEffect, useState } from "react";
 import { fetchServices } from "../api/servicesApi";
-import { getMasters } from "../data/masters";
+import { fetchMasters } from "../api/mastersApi";
 import { Link } from "react-router";
 
 function HomePage() {
   const [services, setServices] = useState([]);
   const [servicesError, setServicesError] = useState("");
 
-  const masters = getMasters();
+  const [masters, setMasters] = useState([]);
+  const [mastersError, setMastersError] = useState("");
 
   useEffect(() => {
-    async function loadServices() {
+    async function loadHomepageData() {
       try {
         const servicesFromApi = await fetchServices();
-
         setServices(servicesFromApi);
       } catch (error) {
         console.error("Homepage services loading error:", error);
         setServicesError("Не вдалося завантажити послуги");
       }
+
+      try {
+        const mastersFromApi = await fetchMasters();
+        setMasters(mastersFromApi);
+      } catch (error) {
+        console.error("Homepage masters loading error:", error);
+        setMastersError("Не вдалося завантажити майстрів");
+      }
     }
 
-    loadServices();
+    loadHomepageData();
   }, []);
 
   return (
@@ -91,15 +99,22 @@ function HomePage() {
 
       <section className="master">
         <h2 className="master-title">Наші майстри</h2>
+
         <div className="master-list">
-          {masters.slice(0, 4).map((master) => (
-            <MasterCard
-              key={master.id}
-              name={master.name}
-              profession={master.profession}
-              experience={master.experience}
-            />
-          ))}
+          {mastersError ? (
+            <p className="error-message">{mastersError}</p>
+          ) : (
+            masters
+              .slice(0, 3)
+              .map((master) => (
+                <MasterCard
+                  key={master.id}
+                  name={master.name}
+                  profession={master.profession}
+                  experience={master.experience}
+                />
+              ))
+          )}
         </div>
       </section>
     </main>
