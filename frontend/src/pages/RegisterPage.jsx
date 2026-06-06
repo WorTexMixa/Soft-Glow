@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import "../components/Main.css";
+import { API_URL } from "../config/api";
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -20,32 +21,35 @@ function RegisterPage() {
     });
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
-    const users = JSON.parse(localStorage.getItem("users")) || [];
+    try {
+      const response = await fetch(`${API_URL}/auth/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
 
-    const userExists = users.find((user) => user.email === formData.email);
+      const data = await response.json();
 
-    if (userExists) {
-      alert("Користувач з таким email вже існує");
-      return;
+      if (!response.ok) {
+        alert(data.message || "Помилка реєстрації");
+        return;
+      }
+
+      alert("Реєстрація успішна! Тепер увійдіть в акаунт.");
+      navigate("/login");
+    } catch (error) {
+      console.error("Register error:", error);
+      alert("Не вдалося підключитися до сервера");
     }
-
-    const adminEmails = ["softglow.admin@gmail.com"];
-
-    const newUser = {
-      id: Date.now(),
-      name: formData.name,
-      email: formData.email,
-      password: formData.password,
-      role: adminEmails.includes(formData.email) ? "admin" : "user",
-    };
-
-    localStorage.setItem("users", JSON.stringify([...users, newUser]));
-
-    alert("Реєстрація успішна! Тепер увійдіть в акаунт.");
-    navigate("/login");
   }
 
   return (
