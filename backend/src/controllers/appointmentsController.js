@@ -167,8 +167,61 @@ const createAppointment = async (req, res) => {
   }
 };
 
+const updateAppointmentStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const allowedStatuses = ["pending", "confirmed", "cancelled", "completed"];
+
+    if (!status) {
+      return res.status(400).json({
+        message: "Status is required",
+      });
+    }
+
+    if (!allowedStatuses.includes(status)) {
+      return res.status(400).json({
+        message: "Invalid status",
+        allowedStatuses,
+      });
+    }
+
+    const [result] = await db.query(
+      `
+      UPDATE appointments
+      SET status = ?
+      WHERE id = ?
+      `,
+      [status, id],
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        message: "Appointment not found",
+      });
+    }
+
+    res.json({
+      message: "Appointment status updated successfully",
+      appointment: {
+        id: Number(id),
+        status,
+      },
+    });
+  } catch (error) {
+    console.error("Update appointment status error:", error);
+
+    res.status(500).json({
+      message: "Failed to update appointment status",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   getAppointments,
   getMyAppointments,
   createAppointment,
+  updateAppointmentStatus,
 };
