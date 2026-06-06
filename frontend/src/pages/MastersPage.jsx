@@ -1,10 +1,30 @@
-import "../components/Main.css";
-import { getMasters } from "../data/masters";
+import { useEffect, useState } from "react";
 import MasterCard from "../components/MasterCard";
-
-const masters = getMasters();
+import { fetchMasters } from "../api/mastersApi";
+import "../components/Main.css";
 
 function MastersPage() {
+  const [masters, setMasters] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    async function loadMasters() {
+      try {
+        const mastersFromApi = await fetchMasters();
+
+        setMasters(mastersFromApi);
+      } catch (error) {
+        console.error("Masters loading error:", error);
+        setError("Не вдалося завантажити майстрів");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    loadMasters();
+  }, []);
+
   return (
     <main>
       <section className="masters-page">
@@ -15,16 +35,28 @@ function MastersPage() {
           забезпечити якісний догляд у комфортній атмосфері.
         </p>
 
-        <div className="master-list">
-          {masters.map((master) => (
-            <MasterCard
-              key={master.id}
-              name={master.name}
-              profession={master.profession}
-              experience={master.experience}
-            />
-          ))}
-        </div>
+        {isLoading && (
+          <p className="page-description">Завантаження майстрів...</p>
+        )}
+
+        {error && <p className="error-message">{error}</p>}
+
+        {!isLoading && !error && masters.length === 0 && (
+          <p className="page-description">Майстри поки не додані.</p>
+        )}
+
+        {!isLoading && !error && masters.length > 0 && (
+          <div className="master-list">
+            {masters.map((master) => (
+              <MasterCard
+                key={master.id}
+                name={master.name}
+                profession={master.profession}
+                experience={master.experience}
+              />
+            ))}
+          </div>
+        )}
       </section>
     </main>
   );
