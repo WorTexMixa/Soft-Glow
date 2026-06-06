@@ -38,6 +38,47 @@ const getAppointments = async (req, res) => {
   }
 };
 
+const getMyAppointments = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const [appointments] = await db.query(
+      `
+      SELECT
+        appointments.id,
+        appointments.name,
+        appointments.phone,
+        appointments.service_id,
+        services.title AS service_title,
+        appointments.master_id,
+        masters.name AS master_name,
+        masters.profession AS master_profession,
+        DATE_FORMAT(appointments.appointment_date, '%Y-%m-%d') AS date,
+        TIME_FORMAT(appointments.appointment_time, '%H:%i') AS time,
+        appointments.comment,
+        appointments.status,
+        appointments.user_id,
+        appointments.created_at
+      FROM appointments
+      LEFT JOIN services ON appointments.service_id = services.id
+      LEFT JOIN masters ON appointments.master_id = masters.id
+      WHERE appointments.user_id = ?
+      ORDER BY appointments.id DESC
+      `,
+      [userId],
+    );
+
+    res.json(appointments);
+  } catch (error) {
+    console.error("Get my appointments error:", error);
+
+    res.status(500).json({
+      message: "Failed to get my appointments",
+      error: error.message,
+    });
+  }
+};
+
 const createAppointment = async (req, res) => {
   try {
     const { name, phone, service_id, master_id, date, time, comment } =
@@ -128,5 +169,6 @@ const createAppointment = async (req, res) => {
 
 module.exports = {
   getAppointments,
+  getMyAppointments,
   createAppointment,
 };
