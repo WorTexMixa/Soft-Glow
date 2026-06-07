@@ -25,3 +25,33 @@ export async function createAppointment(appointmentData) {
 
   return data;
 }
+
+export async function fetchMyAppointments() {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch(`${API_URL}/appointments/my`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Не вдалося завантажити записи");
+  }
+
+  if (Array.isArray(data)) {
+    return data;
+  }
+
+  if (Array.isArray(data.appointments)) {
+    return data.appointments;
+  }
+
+  if (Array.isArray(data.data)) {
+    return data.data;
+  }
+
+  return [];
+}

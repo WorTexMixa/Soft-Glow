@@ -1,10 +1,38 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
+import { fetchMyAppointments } from "../api/appointmentsApi";
 import "../components/Main.css";
 
 function MyAppointmentsPage() {
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const token = localStorage.getItem("token");
 
-  if (!currentUser) {
+  const [appointments, setAppointments] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    async function loadMyAppointments() {
+      if (!currentUser || !token) {
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        const appointmentsFromApi = await fetchMyAppointments();
+        setAppointments(appointmentsFromApi);
+      } catch (error) {
+        console.error("My appointments loading error:", error);
+        setError(error.message || "Не вдалося завантажити записи");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    loadMyAppointments();
+  }, []);
+
+  if (!currentUser || !token) {
     return (
       <main>
         <section className="my-appointments-page">
@@ -28,12 +56,6 @@ function MyAppointmentsPage() {
     );
   }
 
-  const appointments = JSON.parse(localStorage.getItem("appointments")) || [];
-
-  const userAppointments = appointments.filter(
-    (appointment) => appointment.userId === currentUser.id,
-  );
-
   return (
     <main>
       <section className="my-appointments-page">
@@ -43,7 +65,13 @@ function MyAppointmentsPage() {
           Тут відображаються записи, створені з вашого акаунта.
         </p>
 
-        {userAppointments.length === 0 ? (
+        {isLoading && (
+          <p className="page-description">Завантаження записів...</p>
+        )}
+
+        {error && <p className="error-message">{error}</p>}
+
+        {!isLoading && !error && appointments.length === 0 && (
           <div className="empty-appointments">
             <h2>У вас ще немає записів</h2>
             <p>Оберіть послугу та створіть перший онлайн-запис.</p>
@@ -52,19 +80,31 @@ function MyAppointmentsPage() {
               Записатися онлайн
             </Link>
           </div>
-        ) : (
+        )}
+
+        {!isLoading && !error && appointments.length > 0 && (
           <div className="appointments-list">
-            {userAppointments.map((appointment) => (
+            {appointments.map((appointment) => (
               <div className="appointment-card" key={appointment.id}>
                 <div className="appointment-header">
-                  <h3>{appointment.service}</h3>
+                  <h3>
+                    {appointment.service_title ||
+                      appointment.service ||
+                      appointment.service_name ||
+                      "Послуга"}
+                  </h3>
+
                   <span className="appointment-status">
-                    {appointment.status}
+                    {appointment.status || "Очікує підтвердження"}
                   </span>
                 </div>
 
                 <p>
-                  <strong>Майстер:</strong> {appointment.master}
+                  <strong>Майстер:</strong>{" "}
+                  {appointment.master_name ||
+                    appointment.master ||
+                    appointment.master_full_name ||
+                    "Не вказано"}
                 </p>
 
                 <p>
