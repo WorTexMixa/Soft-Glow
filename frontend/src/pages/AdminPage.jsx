@@ -5,6 +5,8 @@ import {
   updateAppointmentStatus,
   deleteAppointment,
 } from "../api/appointmentsApi";
+import { fetchServices } from "../api/servicesApi";
+import { fetchMasters } from "../api/mastersApi";
 import { getStatusLabel } from "../utils/statusUtils";
 import "../components/Main.css";
 
@@ -20,6 +22,11 @@ function AdminPage() {
   const token = localStorage.getItem("token");
 
   const [appointments, setAppointments] = useState([]);
+  const [stats, setStats] = useState({
+    appointmentsCount: 0,
+    servicesCount: 0,
+    mastersCount: 0,
+  });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -31,11 +38,23 @@ function AdminPage() {
       }
 
       try {
-        const appointmentsFromApi = await fetchAllAppointments();
+        const [appointmentsFromApi, servicesFromApi, mastersFromApi] =
+          await Promise.all([
+            fetchAllAppointments(),
+            fetchServices(),
+            fetchMasters(),
+          ]);
+
         setAppointments(appointmentsFromApi);
+
+        setStats({
+          appointmentsCount: appointmentsFromApi.length,
+          servicesCount: servicesFromApi.length,
+          mastersCount: mastersFromApi.length,
+        });
       } catch (error) {
-        console.error("Admin appointments loading error:", error);
-        setError(error.message || "Не вдалося завантажити записи");
+        console.error("Admin dashboard loading error:", error);
+        setError(error.message || "Не вдалося завантажити дані адмін-панелі");
       } finally {
         setIsLoading(false);
       }
@@ -127,6 +146,27 @@ function AdminPage() {
             Керування майстрами
           </Link>
         </div>
+
+        {!isLoading && !error && (
+          <div className="admin-dashboard">
+            <div className="admin-stat-card">
+              <span className="admin-stat-number">
+                {stats.appointmentsCount}
+              </span>
+              <p>Усього записів</p>
+            </div>
+
+            <div className="admin-stat-card">
+              <span className="admin-stat-number">{stats.servicesCount}</span>
+              <p>Послуг</p>
+            </div>
+
+            <div className="admin-stat-card">
+              <span className="admin-stat-number">{stats.mastersCount}</span>
+              <p>Майстрів</p>
+            </div>
+          </div>
+        )}
 
         {isLoading && (
           <p className="page-description">Завантаження записів...</p>
