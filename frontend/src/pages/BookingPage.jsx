@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { fetchServices } from "../api/servicesApi";
 import { fetchMasters } from "../api/mastersApi";
+import { createAppointment } from "../api/appointmentsApi";
 import "../components/Main.css";
 
 function BookingPage() {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
-    service: "",
-    master: "",
+    service_id: "",
+    master_id: "",
     date: "",
     time: "",
     comment: "",
@@ -47,43 +48,35 @@ function BookingPage() {
     });
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    const appointments = JSON.parse(localStorage.getItem("appointments")) || [];
+    try {
+      await createAppointment({
+        name: formData.name,
+        phone: formData.phone,
+        service_id: Number(formData.service_id),
+        master_id: Number(formData.master_id),
+        date: formData.date,
+        time: formData.time,
+        comment: formData.comment,
+      });
 
-    const newAppointment = {
-      id: Date.now(),
-      name: formData.name,
-      phone: formData.phone,
-      service: formData.service,
-      master: formData.master,
-      date: formData.date,
-      time: formData.time,
-      comment: formData.comment,
-      status: "Очікує підтвердження",
+      alert("Запис успішно створено! Ми зв’яжемося з вами для підтвердження.");
 
-      userId: currentUser ? currentUser.id : null,
-      userEmail: currentUser ? currentUser.email : null,
-    };
-
-    localStorage.setItem(
-      "appointments",
-      JSON.stringify([...appointments, newAppointment]),
-    );
-
-    alert("Запис успішно створено! Ми зв’яжемося з вами для підтвердження.");
-
-    setFormData({
-      name: "",
-      phone: "",
-      service: "",
-      master: "",
-      date: "",
-      time: "",
-      comment: "",
-    });
+      setFormData({
+        name: "",
+        phone: "",
+        service_id: "",
+        master_id: "",
+        date: "",
+        time: "",
+        comment: "",
+      });
+    } catch (error) {
+      console.error("Create appointment error:", error);
+      alert(error.message || "Не вдалося створити запис");
+    }
   }
 
   return (
@@ -125,11 +118,11 @@ function BookingPage() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="service">Послуга</label>
+            <label htmlFor="service_id">Послуга</label>
             <select
-              id="service"
-              name="service"
-              value={formData.service}
+              id="service_id"
+              name="service_id"
+              value={formData.service_id}
               onChange={handleChange}
               required
               disabled={isLoading}
@@ -139,7 +132,7 @@ function BookingPage() {
               </option>
 
               {services.map((service) => (
-                <option key={service.id} value={service.title}>
+                <option key={service.id} value={service.id}>
                   {service.title}
                 </option>
               ))}
@@ -147,11 +140,11 @@ function BookingPage() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="master">Майстер</label>
+            <label htmlFor="master_id">Майстер</label>
             <select
-              id="master"
-              name="master"
-              value={formData.master}
+              id="master_id"
+              name="master_id"
+              value={formData.master_id}
               onChange={handleChange}
               required
               disabled={isLoading}
@@ -161,7 +154,7 @@ function BookingPage() {
               </option>
 
               {masters.map((master) => (
-                <option key={master.id} value={master.name}>
+                <option key={master.id} value={master.id}>
                   {master.name} — {master.profession}
                 </option>
               ))}
