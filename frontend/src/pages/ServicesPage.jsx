@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router";
 import ServiceCard from "../components/ServiceCard";
 import { fetchServices } from "../api/servicesApi";
 import "../components/Main.css";
@@ -54,6 +55,14 @@ function ServicesPage() {
                 description={service.description}
               />
             ))}
+          </div>
+        )}
+
+        {!isLoading && !error && services.length > 0 && (
+          <div className="page-actions">
+            <Link className="contacts-button" to="/booking">
+              Записатися онлайн
+            </Link>
           </div>
         )}
       </section>

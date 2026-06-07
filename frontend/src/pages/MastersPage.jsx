@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router";
 import MasterCard from "../components/MasterCard";
 import { fetchMasters } from "../api/mastersApi";
 import "../components/Main.css";
@@ -55,6 +56,14 @@ function MastersPage() {
                 experience={master.experience}
               />
             ))}
+          </div>
+        )}
+        
+        {!isLoading && !error && masters.length > 0 && (
+          <div className="page-actions">
+            <Link className="contacts-button" to="/booking">
+              Записатися онлайн
+            </Link>
           </div>
         )}
       </section>
