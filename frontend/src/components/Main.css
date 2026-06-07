@@ -739,6 +739,66 @@ main {
   align-items: center;
 }
 
+.status-badge {
+  display: inline-block;
+
+  padding: 8px 14px;
+  border-radius: 20px;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.status-badge--pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-badge--confirmed {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-badge--cancelled {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.status-badge--completed {
+  background-color: #dbeafe;
+  color: #1e3a8a;
+}
+
+.status-select {
+  padding: 8px 10px;
+
+  border: 1px solid #ddd;
+  border-radius: 10px;
+
+  font-family: inherit;
+  font-weight: 600;
+}
+
+.status-select--pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-select--confirmed {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-select--cancelled {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.status-select--completed {
+  background-color: #dbeafe;
+  color: #1e3a8a;
+}
+
 @media (max-width: 768px) {
   main {
     min-height: auto;

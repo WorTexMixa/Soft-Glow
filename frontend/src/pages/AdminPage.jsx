@@ -5,6 +5,7 @@ import {
   updateAppointmentStatus,
   deleteAppointment,
 } from "../api/appointmentsApi";
+import { getStatusLabel } from "../utils/statusUtils";
 import "../components/Main.css";
 
 const statusLabels = {
@@ -183,6 +184,7 @@ function AdminPage() {
 
                     <td>
                       <select
+                        className={`status-select status-select--${appointment.status || "pending"}`}
                         value={appointment.status || "pending"}
                         onChange={(event) =>
                           handleStatusChange(appointment.id, event.target.value)

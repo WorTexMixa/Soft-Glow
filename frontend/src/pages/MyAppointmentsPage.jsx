@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { fetchMyAppointments } from "../api/appointmentsApi";
+import { getStatusClass, getStatusLabel } from "../utils/statusUtils";
 import "../components/Main.css";
 
 function MyAppointmentsPage() {
@@ -94,8 +95,8 @@ function MyAppointmentsPage() {
                       "Послуга"}
                   </h3>
 
-                  <span className="appointment-status">
-                    {appointment.status || "Очікує підтвердження"}
+                  <span className={getStatusClass(appointment.status)}>
+                    {getStatusLabel(appointment.status)}
                   </span>
                 </div>
 
