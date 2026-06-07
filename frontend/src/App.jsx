@@ -12,8 +12,9 @@ import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import MyAppointmentsPage from "./pages/MyAppointmentsPage";
 import AdminPage from "./pages/AdminPage";
-import AdminServicesPage from './pages/AdminServicesPage'
-import AdminMastersPage from './pages/AdminMastersPage'
+import AdminServicesPage from "./pages/AdminServicesPage";
+import AdminMastersPage from "./pages/AdminMastersPage";
+import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 
 function App() {
   return (
@@ -29,10 +30,33 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/my-appointments" element={<MyAppointmentsPage />} />
-        <Route path="/admin" element={<AdminPage />} />
-        <Route path="/admin/services" element={<AdminServicesPage />} />
-        <Route path="/admin/masters" element={<AdminMastersPage />} />
-        
+
+        <Route
+          path="/admin"
+          element={
+            <ProtectedAdminRoute>
+              <AdminPage />
+            </ProtectedAdminRoute>
+          }
+        />
+
+        <Route
+          path="/admin/services"
+          element={
+            <ProtectedAdminRoute>
+              <AdminServicesPage />
+            </ProtectedAdminRoute>
+          }
+        />
+
+        <Route
+          path="/admin/masters"
+          element={
+            <ProtectedAdminRoute>
+              <AdminMastersPage />
+            </ProtectedAdminRoute>
+          }
+        />
       </Routes>
 
       <Footer />
