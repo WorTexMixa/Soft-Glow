@@ -723,6 +723,14 @@ main {
   font-weight: 600;
 }
 
+.not-found-page {
+  min-height: 70vh;
+  padding: 100px 20px;
+
+  background-color: #ffffff;
+  text-align: center;
+}
+
 @media (max-width: 768px) {
   main {
     min-height: auto;

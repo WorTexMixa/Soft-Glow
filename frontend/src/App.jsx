@@ -15,6 +15,7 @@ import AdminPage from "./pages/AdminPage";
 import AdminServicesPage from "./pages/AdminServicesPage";
 import AdminMastersPage from "./pages/AdminMastersPage";
 import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
             </ProtectedAdminRoute>
           }
         />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
 
       <Footer />
