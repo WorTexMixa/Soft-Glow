@@ -1,15 +1,49 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import { useState } from "react";
+import {
+  fetchAllAppointments,
+  updateAppointmentStatus,
+  deleteAppointment,
+} from "../api/appointmentsApi";
 import "../components/Main.css";
+
+const statusLabels = {
+  pending: "Очікує підтвердження",
+  confirmed: "Підтверджено",
+  cancelled: "Скасовано",
+  completed: "Виконано",
+};
 
 function AdminPage() {
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const token = localStorage.getItem("token");
 
-  const [appointments, setAppointments] = useState(
-    JSON.parse(localStorage.getItem("appointments")) || [],
-  );
+  const [appointments, setAppointments] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  if (!currentUser || currentUser.role !== "admin") {
+  useEffect(() => {
+    async function loadAppointments() {
+      if (!currentUser || currentUser.role !== "admin" || !token) {
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        const appointmentsFromApi = await fetchAllAppointments();
+        setAppointments(appointmentsFromApi);
+      } catch (error) {
+        console.error("Admin appointments loading error:", error);
+        setError(error.message || "Не вдалося завантажити записи");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    loadAppointments();
+  }, []);
+
+  if (!currentUser || currentUser.role !== "admin" || !token) {
     return (
       <main>
         <section className="admin-page">
@@ -27,35 +61,47 @@ function AdminPage() {
     );
   }
 
-  function handleStatusChange(appointmentId, newStatus) {
-    const updatedAppointments = appointments.map((appointment) => {
-      if (appointment.id === appointmentId) {
-        return {
-          ...appointment,
-          status: newStatus,
-        };
-      }
+  async function handleStatusChange(appointmentId, newStatus) {
+    try {
+      await updateAppointmentStatus(appointmentId, newStatus);
 
-      return appointment;
-    });
+      const updatedAppointments = appointments.map((appointment) => {
+        if (appointment.id === appointmentId) {
+          return {
+            ...appointment,
+            status: newStatus,
+          };
+        }
 
-    setAppointments(updatedAppointments);
-    localStorage.setItem("appointments", JSON.stringify(updatedAppointments));
+        return appointment;
+      });
+
+      setAppointments(updatedAppointments);
+    } catch (error) {
+      console.error("Update status error:", error);
+      alert(error.message || "Не вдалося оновити статус");
+    }
   }
 
-  function handleDelete(appointmentId) {
-    const confirmed = confirm("Видалити цей запис?");
+  async function handleDelete(appointmentId) {
+    const confirmed = window.confirm("Видалити цей запис?");
 
     if (!confirmed) {
       return;
     }
 
-    const updatedAppointments = appointments.filter(
-      (appointment) => appointment.id !== appointmentId,
-    );
+    try {
+      await deleteAppointment(appointmentId);
 
-    setAppointments(updatedAppointments);
-    localStorage.setItem("appointments", JSON.stringify(updatedAppointments));
+      const updatedAppointments = appointments.filter(
+        (appointment) => appointment.id !== appointmentId,
+      );
+
+      setAppointments(updatedAppointments);
+    } catch (error) {
+      console.error("Delete appointment error:", error);
+      alert(error.message || "Не вдалося видалити запис");
+    }
   }
 
   return (
@@ -81,14 +127,22 @@ function AdminPage() {
           </Link>
         </div>
 
-        {appointments.length === 0 ? (
+        {isLoading && (
+          <p className="page-description">Завантаження записів...</p>
+        )}
+
+        {error && <p className="error-message">{error}</p>}
+
+        {!isLoading && !error && appointments.length === 0 && (
           <div className="empty-appointments">
             <h2>Записів поки немає</h2>
             <p>
               Коли клієнти створять записи, вони з’являться на цій сторінці.
             </p>
           </div>
-        ) : (
+        )}
+
+        {!isLoading && !error && appointments.length > 0 && (
           <div className="admin-table-wrapper">
             <table className="admin-table">
               <thead>
@@ -109,28 +163,42 @@ function AdminPage() {
                   <tr key={appointment.id}>
                     <td>{appointment.name}</td>
                     <td>{appointment.phone}</td>
-                    <td>{appointment.service}</td>
-                    <td>{appointment.master}</td>
+
+                    <td>
+                      {appointment.service_title ||
+                        appointment.service ||
+                        appointment.service_name ||
+                        "Не вказано"}
+                    </td>
+
+                    <td>
+                      {appointment.master_name ||
+                        appointment.master ||
+                        appointment.master_full_name ||
+                        "Не вказано"}
+                    </td>
+
                     <td>{appointment.date}</td>
                     <td>{appointment.time}</td>
+
                     <td>
                       <select
-                        value={appointment.status}
+                        value={appointment.status || "pending"}
                         onChange={(event) =>
                           handleStatusChange(appointment.id, event.target.value)
                         }
                       >
-                        <option value="Очікує підтвердження">
-                          Очікує підтвердження
-                        </option>
-                        <option value="Підтверджено">Підтверджено</option>
-                        <option value="Скасовано">Скасовано</option>
-                        <option value="Виконано">Виконано</option>
+                        <option value="pending">Очікує підтвердження</option>
+                        <option value="confirmed">Підтверджено</option>
+                        <option value="cancelled">Скасовано</option>
+                        <option value="completed">Виконано</option>
                       </select>
                     </td>
+
                     <td>
                       <button
                         className="delete-button"
+                        type="button"
                         onClick={() => handleDelete(appointment.id)}
                       >
                         Видалити
