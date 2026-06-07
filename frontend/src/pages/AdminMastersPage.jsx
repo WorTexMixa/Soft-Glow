@@ -1,12 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import { getMasters, saveMasters } from "../data/masters";
+import {
+  fetchMasters,
+  createMaster,
+  updateMaster,
+  deleteMaster,
+} from "../api/mastersApi";
 import "../components/Main.css";
 
 function AdminMastersPage() {
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const token = localStorage.getItem("token");
 
-  const [masters, setMasters] = useState(getMasters());
+  const [masters, setMasters] = useState([]);
   const [editingId, setEditingId] = useState(null);
 
   const [formData, setFormData] = useState({
@@ -15,7 +21,31 @@ function AdminMastersPage() {
     experience: "",
   });
 
-  if (!currentUser || currentUser.role !== "admin") {
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    async function loadMasters() {
+      if (!currentUser || currentUser.role !== "admin" || !token) {
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        const mastersFromApi = await fetchMasters();
+        setMasters(mastersFromApi);
+      } catch (error) {
+        console.error("Admin masters loading error:", error);
+        setError(error.message || "Не вдалося завантажити майстрів");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    loadMasters();
+  }, []);
+
+  if (!currentUser || currentUser.role !== "admin" || !token) {
     return (
       <main>
         <section className="admin-masters-page">
@@ -42,45 +72,52 @@ function AdminMastersPage() {
     });
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
-    if (editingId) {
-      const updatedMasters = masters.map((master) => {
-        if (master.id === editingId) {
-          return {
-            ...master,
-            name: formData.name,
-            profession: formData.profession,
-            experience: formData.experience,
-          };
-        }
+    try {
+      if (editingId) {
+        await updateMaster(editingId, {
+          name: formData.name,
+          profession: formData.profession,
+          experience: formData.experience,
+        });
 
-        return master;
+        const updatedMasters = masters.map((master) => {
+          if (master.id === editingId) {
+            return {
+              ...master,
+              name: formData.name,
+              profession: formData.profession,
+              experience: formData.experience,
+            };
+          }
+
+          return master;
+        });
+
+        setMasters(updatedMasters);
+        setEditingId(null);
+      } else {
+        await createMaster({
+          name: formData.name,
+          profession: formData.profession,
+          experience: formData.experience,
+        });
+
+        const mastersFromApi = await fetchMasters();
+        setMasters(mastersFromApi);
+      }
+
+      setFormData({
+        name: "",
+        profession: "",
+        experience: "",
       });
-
-      setMasters(updatedMasters);
-      saveMasters(updatedMasters);
-      setEditingId(null);
-    } else {
-      const newMaster = {
-        id: Date.now(),
-        name: formData.name,
-        profession: formData.profession,
-        experience: formData.experience,
-      };
-
-      const updatedMasters = [...masters, newMaster];
-
-      setMasters(updatedMasters);
-      saveMasters(updatedMasters);
+    } catch (error) {
+      console.error("Save master error:", error);
+      alert(error.message || "Не вдалося зберегти майстра");
     }
-
-    setFormData({
-      name: "",
-      profession: "",
-      experience: "",
-    });
   }
 
   function handleEdit(master) {
@@ -103,17 +140,23 @@ function AdminMastersPage() {
     });
   }
 
-  function handleDelete(masterId) {
+  async function handleDelete(masterId) {
     const confirmed = window.confirm("Видалити цього майстра?");
 
     if (!confirmed) {
       return;
     }
 
-    const updatedMasters = masters.filter((master) => master.id !== masterId);
+    try {
+      await deleteMaster(masterId);
 
-    setMasters(updatedMasters);
-    saveMasters(updatedMasters);
+      const updatedMasters = masters.filter((master) => master.id !== masterId);
+
+      setMasters(updatedMasters);
+    } catch (error) {
+      console.error("Delete master error:", error);
+      alert(error.message || "Не вдалося видалити майстра");
+    }
   }
 
   return (
@@ -183,45 +226,60 @@ function AdminMastersPage() {
           </div>
         </form>
 
-        <div className="admin-table-wrapper">
-          <table className="admin-table">
-            <thead>
-              <tr>
-                <th>Ім’я</th>
-                <th>Спеціалізація</th>
-                <th>Досвід</th>
-                <th>Дії</th>
-              </tr>
-            </thead>
+        {isLoading && (
+          <p className="page-description">Завантаження майстрів...</p>
+        )}
 
-            <tbody>
-              {masters.map((master) => (
-                <tr key={master.id}>
-                  <td>{master.name}</td>
-                  <td>{master.profession}</td>
-                  <td>{master.experience}</td>
-                  <td>
-                    <button
-                      className="edit-button"
-                      type="button"
-                      onClick={() => handleEdit(master)}
-                    >
-                      Редагувати
-                    </button>
+        {error && <p className="error-message">{error}</p>}
 
-                    <button
-                      className="delete-button"
-                      type="button"
-                      onClick={() => handleDelete(master.id)}
-                    >
-                      Видалити
-                    </button>
-                  </td>
+        {!isLoading && !error && masters.length === 0 && (
+          <div className="empty-appointments">
+            <h2>Майстрів поки немає</h2>
+            <p>Додайте першого майстра через форму вище.</p>
+          </div>
+        )}
+
+        {!isLoading && !error && masters.length > 0 && (
+          <div className="admin-table-wrapper">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>Ім’я</th>
+                  <th>Спеціалізація</th>
+                  <th>Досвід</th>
+                  <th>Дії</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+
+              <tbody>
+                {masters.map((master) => (
+                  <tr key={master.id}>
+                    <td>{master.name}</td>
+                    <td>{master.profession}</td>
+                    <td>{master.experience}</td>
+                    <td>
+                      <button
+                        className="edit-button"
+                        type="button"
+                        onClick={() => handleEdit(master)}
+                      >
+                        Редагувати
+                      </button>
+
+                      <button
+                        className="delete-button"
+                        type="button"
+                        onClick={() => handleDelete(master.id)}
+                      >
+                        Видалити
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </section>
     </main>
   );
