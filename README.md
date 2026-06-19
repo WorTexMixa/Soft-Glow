@@ -1,14 +1,13 @@
 # Soft Glow CRM
 
-CRM-система для управління салоном краси.
+Короткий опис проєкту.
 
-## Tech Stack
-Frontend: React, React Router, Vite, CSS
-Backend: Node.js, Express
-Database: MySQL
-Auth: JWT, bcrypt
+## Про проєкт
 
-## Features
+Що це за система і для чого вона потрібна.
+
+## Основні можливості
+
 - Перегляд послуг
 - Перегляд майстрів
 - Онлайн-запис клієнта
@@ -17,15 +16,64 @@ Auth: JWT, bcrypt
 - Адмін-панель
 - CRUD для послуг і майстрів
 
-## Project Structure
+## Технології
+
+Frontend:
+- React
+- React Router
+- Vite
+- JavaScript
+- CSS
+
+Backend:
+- Node.js
+- Express
+- MySQL
+- JWT
+- bcrypt
+
+## Архітектура
+
+Frontend React → REST API → Backend Express → MySQL
+
+Користувач працює з React frontend. Frontend надсилає HTTP-запити до REST API. Backend на Node.js та Express обробляє запити, працює з MySQL і повертає JSON-відповідь.
+
+Детальніше: [Architecture](docs/architecture.md)
+
+## Структура проєкту
+
 frontend/
 backend/
 database/
 docs/
 
-## How to Run
-1. Clone repository
-2. Install dependencies
-3. Create .env
-4. Run backend
-5. Run frontend
+## Як запустити проєкт
+
+Інструкція запуску frontend/backend.
+
+## API
+
+## Auth
+
+POST /api/auth/register  
+Реєстрація користувача.
+
+POST /api/auth/login  
+Авторизація користувача.
+
+## Services
+
+GET /api/services  
+Отримати список послуг.
+
+POST /api/services  
+Додати послугу. Доступно адміністратору.
+
+PUT /api/services/:id  
+Оновити послугу. Доступно адміністратору.
+
+DELETE /api/services/:id  
+Видалити послугу. Доступно адміністратору.
+
+Детальний опис API: [API Documentation](docs/api.md)
+
