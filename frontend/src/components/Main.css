@@ -837,6 +837,20 @@ main {
   font-weight: 600;
 }
 
+.form-error {
+  margin: 6px 0 0;
+
+  color: #c0392b;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.booking-form button:disabled,
+.contacts-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 @media (max-width: 768px) {
   main {
     min-height: auto;

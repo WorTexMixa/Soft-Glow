@@ -4,6 +4,16 @@ import { fetchMasters } from "../api/mastersApi";
 import { createAppointment } from "../api/appointmentsApi";
 import "../components/Main.css";
 
+const getTodayDate = () => {
+  const today = new Date();
+
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDay()).padStart(2, "0");
+
+  return "${year}-${month}-${day}";
+};
+
 function BookingPage() {
   const [formData, setFormData] = useState({
     name: "",
@@ -14,6 +24,9 @@ function BookingPage() {
     time: "",
     comment: "",
   });
+
+  const [validationErrors, setValidationErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [services, setServices] = useState([]);
   const [masters, setMasters] = useState([]);
@@ -39,17 +52,66 @@ function BookingPage() {
     loadBookingData();
   }, []);
 
+  const validateForm = () => {
+    const errors = {};
+    const todayDate = getTodayDate();
+    const phoneDigits = formData.phone.replace(/\D/g, "");
+
+    if (!formData.name.trim()) {
+      errors.name = "Введіть ім'я";
+    }
+
+    if (!phoneDigits.trim()) {
+      errors.phone = "Введіть номер телефону";
+    } else if (phoneDigits.length < 8 || phoneDigits.length > 15) {
+      errors.phone = "Введіть коректний номер телефону";
+    }
+
+    if (!formData.date) {
+      errors.date = "Оберіть дату";
+    } else if (formData.date < getTodayDate) {
+      errors.date = "Не можна обрати минулу дату";
+    }
+
+    if (!formData.service_id) {
+      errors.service_id = "Оберіть послугу";
+    }
+
+    if (!formData.master_id) {
+      errors.master_id = "Оберіть майстра";
+    }
+
+    if (!formData.time) {
+      errors.time = "Оберіть час";
+    }
+
+    setValidationErrors(errors);
+
+    return Object.keys(errors).length === 0;
+  };
+
   function handleChange(event) {
     const { name, value } = event.target;
 
-    setFormData({
-      ...formData,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       [name]: value,
-    });
+    }));
+
+    setValidationErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSubmitting(true);
 
     try {
       await createAppointment({
@@ -73,11 +135,25 @@ function BookingPage() {
         time: "",
         comment: "",
       });
+
+      setValidationErrors({});
     } catch (error) {
       console.error("Create appointment error:", error);
       alert(error.message || "Не вдалося створити запис");
+    } finally {
+      setIsSubmitting(false);
     }
   }
+
+  const isRequiredFieldsMissing =
+    !formData.name.trim() ||
+    !formData.phone.trim() ||
+    !formData.service_id.trim() ||
+    !formData.master_id.trim() ||
+    !formData.date.trim() ||
+    !formData.time.trim();
+
+  const isSubmitDisabled = isRequiredFieldsMissing || isSubmitting;
 
   return (
     <main>
@@ -102,6 +178,9 @@ function BookingPage() {
               onChange={handleChange}
               required
             />
+            {validationErrors.name && (
+              <p className="form-error">{validationErrors.name}</p>
+            )}
           </div>
 
           <div className="form-group">
@@ -115,6 +194,9 @@ function BookingPage() {
               onChange={handleChange}
               required
             />
+            {validationErrors.phone && (
+              <p className="form-error">{validationErrors.phone}</p>
+            )}
           </div>
 
           <div className="form-group">
@@ -137,6 +219,9 @@ function BookingPage() {
                 </option>
               ))}
             </select>
+            {validationErrors.service_id && (
+              <p className="form-error">{validationErrors.service_id}</p>
+            )}
           </div>
 
           <div className="form-group">
@@ -159,6 +244,9 @@ function BookingPage() {
                 </option>
               ))}
             </select>
+            {validationErrors.master_id && (
+              <p className="form-error">{validationErrors.master_id}</p>
+            )}
           </div>
 
           <div className="form-row">
@@ -169,9 +257,13 @@ function BookingPage() {
                 type="date"
                 name="date"
                 value={formData.date}
+                min={getTodayDate()}
                 onChange={handleChange}
                 required
               />
+              {validationErrors.date && (
+                <p className="form-error">{validationErrors.date}</p>
+              )}
             </div>
 
             <div className="form-group">
@@ -184,6 +276,9 @@ function BookingPage() {
                 onChange={handleChange}
                 required
               />
+              {validationErrors.time && (
+                <p className="form-error">{validationErrors.time}</p>
+              )}
             </div>
           </div>
 
@@ -198,8 +293,12 @@ function BookingPage() {
             ></textarea>
           </div>
 
-          <button className="booking-button" type="submit">
-            Підтвердити запис
+          <button
+            type="submit"
+            className="booking-button"
+            disabled={isSubmitDisabled}
+          >
+            {isSubmitting ? "Відправка" : "Записатись"}
           </button>
         </form>
       </section>
