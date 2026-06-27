@@ -9,9 +9,9 @@ const getTodayDate = () => {
 
   const year = today.getFullYear();
   const month = String(today.getMonth() + 1).padStart(2, "0");
-  const day = String(today.getDay()).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
 
-  return "${year}-${month}-${day}";
+  return `${year}-${month}-${day}`;
 };
 
 function BookingPage() {
@@ -69,7 +69,7 @@ function BookingPage() {
 
     if (!formData.date) {
       errors.date = "Оберіть дату";
-    } else if (formData.date < getTodayDate) {
+    } else if (formData.date < todayDate) {
       errors.date = "Не можна обрати минулу дату";
     }
 
