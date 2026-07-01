@@ -31,4 +31,13 @@ INSERT INTO masters (name, profession, experience) VALUES
 ('Катерина Мельник', 'Візажист', '3 роки'),
 ('Вікторія Бондар', 'Бровіст', '4 роки');
 
+INSERT IGNORE INTO master_service (master_id, service_id)
+VALUES
+  (1, 1),
+  (2, 2),
+  (3, 3),
+  (3, 4),
+  (4, 5),
+  (5, 6);
+
 SET SQL_SAFE_UPDATES = 1;

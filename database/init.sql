@@ -28,6 +28,25 @@ CREATE TABLE IF NOT EXISTS masters (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS master_service (
+  master_id INT NOT NULL,
+  service_id INT NOT NULL,
+
+  PRIMARY KEY (master_id, service_id),
+
+  CONSTRAINT fk_master_service_master
+    FOREIGN KEY (master_id)
+    REFERENCES masters(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+
+  CONSTRAINT fk_master_service_service
+    FOREIGN KEY (service_id)
+    REFERENCES services(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS appointments (
   id INT AUTO_INCREMENT PRIMARY KEY,
 
